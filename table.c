@@ -51,7 +51,7 @@ void	tab_zeroes(int rows, int cols, int **table)
 	}
 }
 
-void	print_empty_tab(int rows, int cols, int **table)
+void	print_tab(int rows, int cols, int **table)
 {
 	int	i;
 	int	j;
@@ -64,7 +64,8 @@ void	print_empty_tab(int rows, int cols, int **table)
 		while(j < cols)
 		{
 			ft_putnbr(table[i][j]);
-			ft_putchar(' ');
+			if (j < 3)
+				ft_putchar(' ');
 			j++;
 		}
 		ft_putchar('\n');
