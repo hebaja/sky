@@ -16,19 +16,23 @@ void	print_error()
 	ft_putstr("Error");
 	ft_putchar('\n');
 }
-
+/*
+ *
+ * I should probably check if number exists in each cell
+ * and retur error case true
+ *
+ */
 void	solve_fours(int *coord, int **table)
 {
 	int	i;
 	int	nbr;
 	int	row;
-	/*int	col;*/
-
+	int	col;
 
 	i = 0;
 	nbr = 1;
 	row = 0;
-	/*col = 0;*/
+	col = 0;
 	while (i < 16)
 	{
 		if (coord[i] == 4)
@@ -36,30 +40,97 @@ void	solve_fours(int *coord, int **table)
 			if (i >= 0 && i <= 3)
 			{
 				row = 0;	
+				col = i;
+				nbr = 0;
 				while (row < 4)
 				{
-					table[row][i] = nbr + row;
+					table[row][col] = nbr + row;
 					row++;
 				}	
 			}
 			if (i >= 4 && i <= 7)
 			{
 				row = 0;
-				nbr = 4;	
+				col = i - 4;	
+				nbr = 4;
 				while (row < 4)
 				{
-					table[row][i - 4] = nbr - row;
+					table[row][col] = nbr - row;
 					row++;
 				}	
 			}
-			/*
 			if (i >= 8 && i <= 11)
+			{
+				row = i - 8;
+				col = 0;
+				nbr = 1;
+				while (col < 4)
+				{
+					table[row][col] = nbr + col;
+					col++;
+				}
+			}
 			if (i >= 12 && i <= 15)
-			*/
+			{
+				row = i - 12;
+				col = 0;
+				nbr = 4;
+				while (col < 4)
+				{
+					table[row][col] = nbr - col;
+					col++;
+				}
+			}
 		}
 		
 		i++;
 	}
+}
+
+void	solve_ones(int *coord, int **table)
+{
+	int	i;
+	int	row;
+	int	col;
+
+	i = 0;
+	row = 0;
+	col = 0;
+	while(i < 16)
+	{
+		if(coord[i] == 1)
+		{
+			if (i >= 0 && i <= 3)
+			{
+				row = 0;
+				col = i;
+				table[row][i] = 4;
+			}
+
+
+			if (i >= 4 && i <= 7)
+			{
+				row = 3;
+				col = i - 4;
+				table[row][col] = 4;
+			}
+			if (i >= 8 && i <= 11)
+			{
+				row = i - 8;
+				col = 0;
+				table[row][col] = 4;
+			}
+			if (i >= 12 && i <= 15)
+			{
+				row = i - 12;
+				col = 3;
+				table[row][col] = 4;
+			}
+			
+		}
+		i++;
+	}
+
 }
 
 int	main(int argc, char **argv)
@@ -112,6 +183,7 @@ int	main(int argc, char **argv)
 
 
 	solve_fours(coord, table);
+	solve_ones(coord, table);
 	print_tab(rows, cols, table);
 
 
