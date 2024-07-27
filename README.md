@@ -1,3 +1,3 @@
 # How to compile:
 
-## gcc rush01.c ft_putnbr.c ft_putchar.c coord.c table.c 
+cc -Wall -Wextra -Werror rush01.c ft_putnbr.c ft_putchar.c coord.c table.c 
