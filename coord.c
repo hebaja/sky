@@ -29,9 +29,24 @@ void	fetch_coord(char *str, int *coord)
 	}
 }
 
+int	is_correct_nbrs(int *coord)
+{
+	int	i;
+
+	i = 0;
+	while (i < coord_len(coord))
+	{
+		if (coord[i] < 1 || coord[i] > 4)
+			return 0;
+		i++;
+	}
+	return 1;
+			
+}
+
 int	is_coord_valid(int *coord)
 {
-	if (coord_len(coord) == 16)
+	if (coord_len(coord) == 16 && is_correct_nbrs(coord))
 		return (1);
 	else
 		return (0);
