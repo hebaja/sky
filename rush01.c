@@ -9,6 +9,7 @@ void	test_table(int rows, int cols, int **table);
 int	is_coord_valid(int *coord);
 void	tab_zeroes(int rows, int cols, int **table);
 void	print_tab(int rows, int cols, int **table);
+int	ft_strlen(char *str);
 
 void	print_error()
 {
@@ -43,11 +44,12 @@ void	solve_fours(int *coord, int **table)
 			}
 			if (i >= 4 && i <= 7)
 			{
-				row = 4;	
-				while (row > 0)
+				row = 0;
+				nbr = 4;	
+				while (row < 4)
 				{
-					table[row][i - 4] = nbr + row;
-					row--;
+					table[row][i - 4] = nbr - row;
+					row++;
 				}	
 			}
 			/*
@@ -62,11 +64,12 @@ void	solve_fours(int *coord, int **table)
 
 int	main(int argc, char **argv)
 {
-	int	*coord;
+	int	coord[50];
 	int	**table;
 	int	rows;
 	int	cols;
 	int	i;
+	int	j;
 
 	i = 0;
 	rows = 4;
@@ -74,13 +77,13 @@ int	main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		coord = malloc(sizeof(int) * 16);
 		fetch_coord(argv[1], coord);
 		if (!is_coord_valid(coord))
 		{
 			print_error();
 			return (0);
 		}
+
 		table = malloc(rows * sizeof(int *));
 		while (i < cols)
 		{
@@ -96,19 +99,29 @@ int	main(int argc, char **argv)
 	}
 
 	tab_zeroes(rows, cols, table);
-	/*print_tab(rows, cols, table);*/
+
+	/*
+	print_tab(rows, cols, table);
+	*/
+
 
 	/*test_table(rows, cols, table);*/
 
 	/* TODO add logic here */
-	 
+	/***********************/	
+
+
 	solve_fours(coord, table);
-	
 	print_tab(rows, cols, table);
-	 
+
+
+	/***********************/ 
    	/* End of logic */
-	
+
+	/*
 	free (coord);
+	*/
+
 	i = 0;
 	while (i < rows)
 	{
@@ -116,6 +129,5 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	free (table);
-
 	return (0);
 }

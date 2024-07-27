@@ -1,5 +1,6 @@
 void	ft_putnbr(int n);
 void	ft_putchar(char n);
+int	ft_strlen(char *str);
 
 int	coord_len(int *coord)
 {
@@ -18,7 +19,7 @@ void	fetch_coord(char *str, int *coord)
 
 	i = 0;
 	i = 0;
-	while (str[i] != '\0')
+	while (i <  ft_strlen(str))
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 		{
