@@ -50,6 +50,14 @@ int	main(int argc, char **argv)
 	}
 
 	/*test_table(rows, cols, table);*/
+
+	/* TODO add logic here
+	 
+	 
+	
+
+	 
+   	End of logic */
 	
 	free (coord);
 	i = 0;
