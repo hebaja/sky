@@ -7,6 +7,8 @@ void	fetch_coord(char *str, int *coord);
 void	print_coord(int *coord);
 void	test_table(int rows, int cols, int **table);
 int	is_coord_valid(int *coord);
+void	tab_zeroes(int rows, int cols, int **table);
+void	print_empty_tab(int rows, int cols, int **table);
 
 void	print_error()
 {
@@ -48,6 +50,9 @@ int	main(int argc, char **argv)
 		print_error();
 		return (0);
 	}
+
+	tab_zeroes(rows, cols, table);
+	print_empty_tab(rows, cols, table);
 
 	/*test_table(rows, cols, table);*/
 
