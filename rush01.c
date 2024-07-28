@@ -22,17 +22,35 @@ void	print_error()
  * and retur error case true
  *
  */
-void	solve_fours(int *coord, int **table)
+
+int	is_equal_position(int row, int col, int nbr, int **table)
+{
+	if (table[row][col] == nbr)
+		return (1);
+	return (0);
+}
+
+int	is_zero_position(int row, int col, int nbr, int **table)
+{
+	if (table[row][col] == 0)
+		return (1);
+	return (0);
+}
+
+
+int	solve_fours(int *coord, int **table)
 {
 	int	i;
 	int	nbr;
 	int	row;
 	int	col;
+	int	is_valid;
 
 	i = 0;
 	nbr = 1;
 	row = 0;
 	col = 0;
+	is_valid = 1;
 	while (i < 16)
 	{
 		if (coord[i] == 4)
@@ -41,10 +59,13 @@ void	solve_fours(int *coord, int **table)
 			{
 				row = 0;	
 				col = i;
-				nbr = 0;
+				nbr = 1;
 				while (row < 4)
 				{
-					table[row][col] = nbr + row;
+					if (is_zero_position(row, col, nbr + row, table) || is_equal_position(row, col, nbr + row, table))
+						table[row][col] = nbr + row;
+					else
+						return (0);
 					row++;
 				}	
 			}
@@ -55,7 +76,10 @@ void	solve_fours(int *coord, int **table)
 				nbr = 4;
 				while (row < 4)
 				{
-					table[row][col] = nbr - row;
+					if(is_zero_position(row, col, nbr - row, table) || is_equal_position(row, col, nbr - row, table))
+						table[row][col] = nbr - row;
+					else
+						return (0);
 					row++;
 				}	
 			}
@@ -66,7 +90,10 @@ void	solve_fours(int *coord, int **table)
 				nbr = 1;
 				while (col < 4)
 				{
-					table[row][col] = nbr + col;
+					if(is_zero_position(row, col, nbr + col, table) || is_equal_position(row, col, nbr + col, table))
+						table[row][col] = nbr + col;
+					else
+						return (0);
 					col++;
 				}
 			}
@@ -77,77 +104,95 @@ void	solve_fours(int *coord, int **table)
 				nbr = 4;
 				while (col < 4)
 				{
-					table[row][col] = nbr - col;
+					if(is_zero_position(row, col, nbr - col, table) || is_equal_position(row, col, nbr - col, table))
+						table[row][col] = nbr - col;
+					else
+						return (0);
 					col++;
 				}
 			}
 		}
-		
 		i++;
 	}
+	return (1);
 }
 
-void	solve_ones(int *coord, int **table)
+int	solve_ones(int *coord, int **table)
 {
 	int	i;
 	int	row;
 	int	col;
+	int	nbr;
 
 	i = 0;
 	row = 0;
 	col = 0;
+	nbr = 4;
 	while(i < 16)
 	{
 		if(coord[i] == 1)
 		{
+
 			if (i >= 0 && i <= 3)
 			{
 				row = 0;
 				col = i;
-				table[row][i] = 4;
+				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
+					table[row][col] = nbr;
+				else
+					return (0);
 			}
-
-
 			if (i >= 4 && i <= 7)
 			{
 				row = 3;
 				col = i - 4;
-				table[row][col] = 4;
+				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
+					table[row][col] = nbr;
+				else
+					return (0);
 			}
 			if (i >= 8 && i <= 11)
 			{
 				row = i - 8;
 				col = 0;
-				table[row][col] = 4;
+				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
+					table[row][col] = nbr;
+				else
+					return (0);
 			}
 			if (i >= 12 && i <= 15)
 			{
 				row = i - 12;
 				col = 3;
-				table[row][col] = 4;
+				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
+					table[row][col] = nbr;
+				else
+					return (0);
 			}
-			
 		}
 		i++;
 	}
+	return (1);
 
 }
 
 int	main(int argc, char **argv)
 {
-	int	coord[50];
+	int	*coord;
 	int	**table;
 	int	rows;
 	int	cols;
 	int	i;
 	int	j;
+	int	valid;
 
 	i = 0;
 	rows = 4;
 	cols = 4;
-
+	valid = 1;
 	if (argc == 2)
 	{
+		coord = malloc(sizeof(int) * 16);
 		fetch_coord(argv[1], coord);
 		if (!is_coord_valid(coord))
 		{
@@ -181,10 +226,16 @@ int	main(int argc, char **argv)
 	/* TODO add logic here */
 	/***********************/	
 
+	
+	valid = solve_ones(coord, table);
+	valid = solve_fours(coord, table);
 
-	solve_fours(coord, table);
-	solve_ones(coord, table);
-	print_tab(rows, cols, table);
+	if(valid)
+		print_tab(rows, cols, table);
+	else
+		print_error();
+
+
 
 
 	/***********************/ 
