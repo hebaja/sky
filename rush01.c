@@ -10,170 +10,27 @@ int	is_coord_valid(int *coord);
 void	tab_zeroes(int rows, int cols, int **table);
 void	print_tab(int rows, int cols, int **table);
 int	ft_strlen(char *str);
+int	solve_fours(int *coord, int **table);
+int	solve_ones(int *coord, int **table);
+int	solve_one_twos(int *coord, int **table);
+int	solve_fours_from_three(int *coord, int **table);
+int		solve_safe_middle_fours(int *coord, int **table);
+int		solve_middle_fours_row(int *coord, int **table);
+int		solve_middle_fours_col(int *coord, int **table);
+int		solve_two_two_col(int *coord, int **table);
+int		solve_two_two_row(int *coord, int **table);
+int		solve_all_fours_found(int **table);
+void	solve_complete_one_twos(int *coord, int **table);
+void	solve_two_threes(int *coord, int **table);
+void	solve_one_threes(int *coord, int **table);
+int	is_complete(int **table);
+void solve_fix_one_two(int **table);
+void	solve_missing_four(int **table);
 
 void	print_error()
 {
 	ft_putstr("Error");
 	ft_putchar('\n');
-}
-/*
- *
- * I should probably check if number exists in each cell
- * and retur error case true
- *
- */
-
-int	is_equal_position(int row, int col, int nbr, int **table)
-{
-	if (table[row][col] == nbr)
-		return (1);
-	return (0);
-}
-
-int	is_zero_position(int row, int col, int nbr, int **table)
-{
-	if (table[row][col] == 0)
-		return (1);
-	return (0);
-}
-
-
-int	solve_fours(int *coord, int **table)
-{
-	int	i;
-	int	nbr;
-	int	row;
-	int	col;
-	int	is_valid;
-
-	i = 0;
-	nbr = 1;
-	row = 0;
-	col = 0;
-	is_valid = 1;
-	while (i < 16)
-	{
-		if (coord[i] == 4)
-		{
-			if (i >= 0 && i <= 3)
-			{
-				row = 0;	
-				col = i;
-				nbr = 1;
-				while (row < 4)
-				{
-					if (is_zero_position(row, col, nbr + row, table) || is_equal_position(row, col, nbr + row, table))
-						table[row][col] = nbr + row;
-					else
-						return (0);
-					row++;
-				}	
-			}
-			if (i >= 4 && i <= 7)
-			{
-				row = 0;
-				col = i - 4;	
-				nbr = 4;
-				while (row < 4)
-				{
-					if(is_zero_position(row, col, nbr - row, table) || is_equal_position(row, col, nbr - row, table))
-						table[row][col] = nbr - row;
-					else
-						return (0);
-					row++;
-				}	
-			}
-			if (i >= 8 && i <= 11)
-			{
-				row = i - 8;
-				col = 0;
-				nbr = 1;
-				while (col < 4)
-				{
-					if(is_zero_position(row, col, nbr + col, table) || is_equal_position(row, col, nbr + col, table))
-						table[row][col] = nbr + col;
-					else
-						return (0);
-					col++;
-				}
-			}
-			if (i >= 12 && i <= 15)
-			{
-				row = i - 12;
-				col = 0;
-				nbr = 4;
-				while (col < 4)
-				{
-					if(is_zero_position(row, col, nbr - col, table) || is_equal_position(row, col, nbr - col, table))
-						table[row][col] = nbr - col;
-					else
-						return (0);
-					col++;
-				}
-			}
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	solve_ones(int *coord, int **table)
-{
-	int	i;
-	int	row;
-	int	col;
-	int	nbr;
-
-	i = 0;
-	row = 0;
-	col = 0;
-	nbr = 4;
-	while(i < 16)
-	{
-		if(coord[i] == 1)
-		{
-
-			if (i >= 0 && i <= 3)
-			{
-				row = 0;
-				col = i;
-				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
-					table[row][col] = nbr;
-				else
-					return (0);
-			}
-			if (i >= 4 && i <= 7)
-			{
-				row = 3;
-				col = i - 4;
-				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
-					table[row][col] = nbr;
-				else
-					return (0);
-			}
-			if (i >= 8 && i <= 11)
-			{
-				row = i - 8;
-				col = 0;
-				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
-					table[row][col] = nbr;
-				else
-					return (0);
-			}
-			if (i >= 12 && i <= 15)
-			{
-				row = i - 12;
-				col = 3;
-				if (is_zero_position(row, col, nbr, table) || is_equal_position(row, col, nbr, table))
-					table[row][col] = nbr;
-				else
-					return (0);
-			}
-		}
-		i++;
-	}
-	return (1);
-
 }
 
 int	main(int argc, char **argv)
@@ -183,13 +40,12 @@ int	main(int argc, char **argv)
 	int	rows;
 	int	cols;
 	int	i;
-	int	j;
-	int	valid;
+	int	count;
 
 	i = 0;
 	rows = 4;
 	cols = 4;
-	valid = 1;
+	count = 0;
 	if (argc == 2)
 	{
 		coord = malloc(sizeof(int) * 16);
@@ -213,38 +69,34 @@ int	main(int argc, char **argv)
 		print_error();
 		return (0);
 	}
-
 	tab_zeroes(rows, cols, table);
-
-	/*
-	print_tab(rows, cols, table);
-	*/
-
-
-	/*test_table(rows, cols, table);*/
-
-	/* TODO add logic here */
-	/***********************/	
-
-	
-	valid = solve_ones(coord, table);
-	valid = solve_fours(coord, table);
-
-	if(valid)
+	solve_ones(coord, table);
+	solve_fours(coord, table);
+	solve_one_twos(coord, table);
+	solve_fours_from_three(coord, table);
+	solve_safe_middle_fours(coord, table);
+	solve_all_fours_found(table);
+	solve_two_two_row(coord, table);
+	solve_two_two_col(coord, table);
+	solve_complete_one_twos(coord, table);
+	solve_two_threes(coord, table);
+	solve_one_threes(coord, table);
+	while (!is_complete(table) && count < 10)
+	{
+		solve_two_two_row(coord, table);
+		solve_two_two_col(coord, table);
+		solve_complete_one_twos(coord, table);
+		solve_two_threes(coord, table);
+		solve_one_threes(coord, table);
+		solve_fix_one_two(table);
+		solve_missing_four(table);
+		count++;
+	}			
+	if (is_complete(table))
 		print_tab(rows, cols, table);
 	else
 		print_error();
-
-
-
-
-	/***********************/ 
-   	/* End of logic */
-
-	/*
 	free (coord);
-	*/
-
 	i = 0;
 	while (i < rows)
 	{
