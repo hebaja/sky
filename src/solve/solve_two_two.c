@@ -41,6 +41,7 @@ void	populate_row(int row, int offset, int **table)
 		}
 		if (table[row][check_col] == 3)
 		{
+
 			table[row][offset] = 2;
 			table[row][offset + 1] = 1;
 		}

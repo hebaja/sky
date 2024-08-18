@@ -73,7 +73,8 @@ int	main(int argc, char **argv)
 	else
 		print_error();
 
-	print_tab(4, 4, table);
+	// ft_putchar(10);
+	// print_tab(4, 4, table);
 	
 	free (coord);
 	i = 0;

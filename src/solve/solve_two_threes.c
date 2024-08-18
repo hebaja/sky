@@ -1,8 +1,31 @@
 #include <stdio.h>
 
-int   check_row(int row, int col, int nbr, int **table)
+int   there_is_nbr_row(int row, int nbr, int **table)
 {
+	int	col;
 
+	col = 0;
+	while (col < 4)
+	{
+		if (table[row][col] == nbr)
+			return 1;
+		col++;
+	}
+	return (0);
+}
+
+int   there_is_nbr_col(int col, int nbr, int **table)
+{
+	int	row;
+
+	row = 0;
+	while (row < 4)
+	{
+		if (table[row][col] == nbr)
+			return 1;
+		row++;
+	}
+	return (0);
 }
 
 void	solve_col(int col, int **table)
@@ -44,11 +67,40 @@ void	solve_col(int col, int **table)
 			table[3 - offset_b][col] = 1;
 		}
 	}
-  if (table[1][col] == 4 && table[2][col] == 3 && row_check == 0)
-  {
-
-  }
-
+	else if (table[1][col] == 4 && table[2][col] == 3 && row_check == 0)
+	{
+		if (there_is_nbr_row(0, 1, table) || there_is_nbr_row(3, 2, table))
+		{
+			if (table[0][col] != 0)
+				table[0][col] = 2;
+			if (table[3][col] != 0)
+				table[3][col] = 1;
+		}
+		else if (there_is_nbr_row(0, 2, table) || there_is_nbr_row(3, 1, table))
+		{
+			if (table[0][col] != 0)
+				table[0][col] = 1;
+			if (table[3][col] != 0)
+				table[3][col] = 2;
+		}
+	}
+	else if (table[1][col] == 3 && table[2][col] == 4 && row_check == 3)
+	{
+		if (there_is_nbr_row(0, 1, table) || there_is_nbr_row(3, 2, table))
+		{
+			if (table[0][col] != 0)
+				table[0][col] = 2;
+			if (table[3][col] != 0)
+			 	table[3][col] = 1;
+		}
+		else if (there_is_nbr_row(0, 2, table) || there_is_nbr_row(3, 1, table))
+		{
+			if (table[0][col] != 0)
+				table[0][col] = 1;
+			if (table[3][col] != 0)
+				table[3][col] = 2;
+		}
+	}
 }
 
 void	solve_row(int row, int **table)
@@ -89,6 +141,40 @@ void	solve_row(int row, int **table)
 		{
 			table[row][2 - offset_a] = 2;
 			table[row][3 - offset_b] = 1;
+		}
+	} 
+	else if (table[row][1] == 4 && table[row][2] == 3 && col_check == 0)
+	{
+		if (there_is_nbr_col(0, 1, table) || there_is_nbr_col(3, 2, table))
+		{
+			if (table[row][0] != 0)
+				table[row][0] = 2;
+			if (table[row][3] != 0)
+				table[row][3] = 1;
+		}
+		else if (there_is_nbr_col(0, 2, table) || there_is_nbr_col(3, 1, table))
+		{
+			if (table[row][0] != 0)
+				table[row][0] = 1;
+			if (table[row][3] != 0)
+				table[row][3] = 2;
+		}
+	}
+	else if (table[row][1] == 3 && table[row][2] == 4 && col_check == 3)
+	{
+		if (there_is_nbr_col(0, 1, table) || there_is_nbr_col(3, 2, table))
+		{
+			if (table[row][0] != 0)
+				table[row][0] = 2;
+			if (table[row][3] != 0)
+				table[row][3] = 1;
+		}
+		else if (there_is_nbr_col(0, 2, table) || there_is_nbr_col(3, 1, table))
+		{
+			if (table[row][0] != 0)
+				table[row][0] = 1;
+			if (table[row][3] != 0)
+				table[row][3] = 2;
 		}
 	}
 }

@@ -43,6 +43,11 @@ void	solve_one_three_col(int col, int **table)
 			table[2 - offset][col] = 3;
 			table[3 - (offset * 3)][col] = 1;
 		}
+		// if (table[2 + offset][col] == 3)
+		// {
+		// 	table[1 - offset][col] = 2;
+		// 	table[3 - (offset * 3)][col] = 1;
+		// }
 	}
 }
 
