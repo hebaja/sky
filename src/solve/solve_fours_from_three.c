@@ -18,7 +18,7 @@ int		check_possible_row(int row, int **table)
 int		get_possible_col(int col, int **table)
 {
 	int		i;
-
+	
 	i = 0;
 	while (i < 4)
 	{
@@ -70,11 +70,12 @@ int	solve_fours_from_three(int *coord, int **table)
 				else
 					return (0);
 			}
+
 			if (i >= 8 && i <= 11)
 			{
 				row = i - 8;
 				col = 2;
-				if (table[row][col] == 4 || table[row + 1][col] == 4)
+				if (table[row][col] == 4 || table[row][col + 1] == 4)
 					is_valid = 1;
 				else if(get_possible_col(col, table))
 					table[row][col] = 4;

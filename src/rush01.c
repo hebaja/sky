@@ -49,9 +49,14 @@ int	main(int argc, char **argv)
 	solve_all_fours_found(table);
 	solve_two_two_row(coord, table);
 	solve_two_two_col(coord, table);
-	solve_complete_one_twos(coord, table);
 	solve_two_threes(coord, table);
 	solve_one_threes(coord, table);
+	solve_missing_four(table);
+	solve_complete_one_twos(coord, table);
+	
+	// print_tab(4, 4, table);
+	// ft_putchar(10);
+	
 	while (!is_complete(table) && count < 10)
 	{
 		solve_two_two_row(coord, table);
@@ -67,6 +72,9 @@ int	main(int argc, char **argv)
 		print_tab(4, 4, table);
 	else
 		print_error();
+
+	print_tab(4, 4, table);
+	
 	free (coord);
 	i = 0;
 	while (i < 4)

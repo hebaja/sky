@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 void	solve_col(int col, int **table)
 {
 	int	ref_nbr;
@@ -37,6 +39,7 @@ void	solve_col(int col, int **table)
 			table[3 - offset_b][col] = 1;
 		}
 	}
+
 }
 
 void	solve_row(int row, int **table)
