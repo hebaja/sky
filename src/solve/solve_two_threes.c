@@ -1,5 +1,10 @@
 #include <stdio.h>
 
+int   check_row(int row, int col, int nbr, int **table)
+{
+
+}
+
 void	solve_col(int col, int **table)
 {
 	int	ref_nbr;
@@ -39,6 +44,10 @@ void	solve_col(int col, int **table)
 			table[3 - offset_b][col] = 1;
 		}
 	}
+  if (table[1][col] == 4 && table[2][col] == 3 && row_check == 0)
+  {
+
+  }
 
 }
 
